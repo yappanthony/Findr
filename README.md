@@ -1,3 +1,3 @@
 # findr
 
-A new Flutter project.
+A campus lost and found app for our flutter final project
