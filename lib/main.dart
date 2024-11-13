@@ -1,3 +1,4 @@
+import 'package:findr/login.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,48 +23,49 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Homepage(),
+      title: 'Findr',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Login(),
+      },
     );
   }
 }
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+// class Homepage extends StatefulWidget {
+//   const Homepage({super.key});
 
-  @override
-  State<Homepage> createState() => _HomepageState();
-}
+//   @override
+//   State<Homepage> createState() => _HomepageState();
+// }
 
-class _HomepageState extends State<Homepage> {
-  final _items = supabase.from('items').stream(primaryKey: ['id']);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: _items,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+// class _HomepageState extends State<Homepage> {
+//   final _items = supabase.from('items').stream(primaryKey: ['id']);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: StreamBuilder<List<Map<String, dynamic>>>(
+//         stream: _items,
+//         builder: (context, snapshot) {
+//           if (!snapshot.hasData) {
+//             return const Center(child: CircularProgressIndicator());
+//           }
           
-          final items = snapshot.data!;
+//           final items = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(items[index]['name'])
-              );
-            }
-          );
-        }
-      )
-    );
-  }
-}
+//           return ListView.builder(
+//             itemCount: items.length,
+//             itemBuilder: (context, index) {
+//               return ListTile(
+//                 title: Text(items[index]['name'])
+//               );
+//             }
+//           );
+//         }
+//       )
+//     );
+//   }
+// }
 
-//does supabase need to be started?
-//how to check if successfully connected?
-//watch yt vid on connecting flutter with supabase
