@@ -12,6 +12,7 @@ dependencies:
   supabase_flutter: ^2.8.0
   font_awesome_flutter: ^10.8.0
   simple_gradient_text: ^1.3.0
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:

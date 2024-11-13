@@ -1,9 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import './screens/home.dart';
 
-class Login extends StatelessWidget {
+final supabase = Supabase.instance.client;
+
+Future<AuthResponse> _googleSignIn(BuildContext context) async {
+  /// Web Client ID that you registered with Google Cloud.
+  const webClientId = '145855038865-q12e8af3cqf6ufbvk3k3dk69ju4bi0op.apps.googleusercontent.com';
+
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    serverClientId: webClientId,
+  );
+  final googleUser = await googleSignIn.signIn();
+  final googleAuth = await googleUser!.authentication;
+  final accessToken = googleAuth.accessToken;
+  final idToken = googleAuth.idToken;
+
+  if (accessToken == null) {
+    throw 'No Access Token found.';
+  }
+  if (idToken == null) {
+    throw 'No ID Token found.';
+  }
+
+   // Perform the Supabase sign-in
+    final authResponse = await supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
+
+    if (authResponse.user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()), 
+      );
+    } else {
+      throw 'Failed to sign in with Google.';
+    }
+
+  return authResponse;
+}
+
+// Get user data
+final user = supabase.auth.currentUser;
+final profileImageUrl = user?.userMetadata?['avatar_url'];
+final fullName = user?.userMetadata?['full_name'];
+
+
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  String? _userId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    supabase.auth.onAuthStateChange.listen((data) {
+      setState(() {
+        _userId = data.session?.user.id;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +106,7 @@ class Login extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 onPressed: () {
-                  // Add Google sign-in logic here
+                  _googleSignIn(context);
                 },
                 icon: FontAwesomeIcons.google,
                 label: 'Sign in with Google',
@@ -70,8 +137,8 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.label,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
