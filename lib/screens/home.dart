@@ -3,6 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
+final user = supabase.auth.currentUser;
+final fullName = user?.userMetadata?['full_name'];
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -15,9 +18,9 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "You are home.\nYou are safe.",
-              style: TextStyle(
+            Text(
+              "$fullName, you are home. You are safe.",
+              style: const TextStyle(
                 fontSize: 50,
               )
             ),
