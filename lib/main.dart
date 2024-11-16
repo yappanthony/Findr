@@ -1,3 +1,5 @@
+import 'package:findr/screens/chat.dart';
+import 'package:findr/screens/chatlist.dart';
 import 'package:findr/screens/details.dart';
 import 'package:findr/screens/login.dart';
 import 'package:findr/screens/home.dart';
@@ -36,11 +38,13 @@ class MainApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Findr',
-      initialRoute: '/home',
+      initialRoute: '/chat',
       routes: {
         '/': (context) => const Login(),
         '/home': (context) => const Home(),
         '/details': (context) => const Details(),
+        '/chatlist': (context) => const Chatlist(),
+        '/chat': (context) => const Chat(),
       },
     );
   }
