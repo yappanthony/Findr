@@ -50,11 +50,11 @@ class Home extends StatelessWidget {
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(color: Color(0xFF96775A).withOpacity(.34)),
+                    borderSide: BorderSide(color: const Color(0xFF96775A).withOpacity(.34)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(color: Color(0xFF96775A).withOpacity(.34)),
+                    borderSide: BorderSide(color: const Color(0xFF96775A).withOpacity(.34)),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 10),
                   isDense: true,
@@ -68,7 +68,7 @@ class Home extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 15,
-                  childAspectRatio: .7, // Adjust this value to control the height
+                  childAspectRatio: .8, // Adjust this value to control the height
                 ),
                 itemCount: gridData.length,
                 itemBuilder: (context, index) {
@@ -81,24 +81,48 @@ class Home extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Color(0xFF96775A).withOpacity(.34)),
+                        border: Border.all(color: const Color(0xFF96775A).withOpacity(.34)),
                         color: Colors.white,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                              'assets/image.png',
-                              fit: BoxFit.fitHeight,
-                              ),
-                            ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5),
+                                ),
+                                child: Image.asset(
+                                'assets/image.png',
+                                fit: BoxFit.cover,
+                                width: 500,
+                                ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color.fromARGB(1000, 48, 38, 29).withOpacity(.70),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                                      child: Text(
+                                        "Unclaimed",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),

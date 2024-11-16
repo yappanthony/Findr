@@ -65,7 +65,7 @@ class Details extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(1000, 48, 38, 29).withOpacity(.70),
+                        color: const Color(0xFF451B0A).withOpacity(.70),
                       ),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
@@ -137,7 +137,7 @@ class Details extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(1000, 48, 38, 29),
+                        backgroundColor: const Color(0xFF451B0A),
                         foregroundColor: Colors.white,
                         shadowColor: Colors.transparent,
                         minimumSize: const Size(double.infinity, 50), // Set width to double.infinity
