@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import './screens/home.dart';
+import 'home.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -142,28 +142,17 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF96775B), Color.fromARGB(1000, 48, 38, 29)],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-        ),
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: FaIcon(
+        icon,
+        color: Colors.white,
       ),
-      child: ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: FaIcon(
-          icon,
-          color: Colors.white,
-        ),
-        label: Text(label),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.white,
-          shadowColor: Colors.transparent,
-        ),
+      label: Text(label),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color.fromARGB(1000, 48, 38, 29),
+        foregroundColor: Colors.white,
+        shadowColor: Colors.transparent,
       ),
     );
   }

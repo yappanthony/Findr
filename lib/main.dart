@@ -1,4 +1,6 @@
-import 'package:findr/login.dart';
+import 'package:findr/screens/details.dart';
+import 'package:findr/screens/login.dart';
+import 'package:findr/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,11 +26,21 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Findr',
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
         '/': (context) => const Login(),
+        '/home': (context) => const Home(),
+        '/details': (context) => const Details(),
       },
     );
   }
