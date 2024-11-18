@@ -1,4 +1,4 @@
-import 'package:findr/widgets/navbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,8 +12,7 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavBar(),
+    return const Scaffold(
       body: SizedBox(
         width: double.infinity,
         child: Column(
@@ -22,6 +21,7 @@ class Chat extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+              child: Text('Hi')
             ),
           ],
         ),

@@ -1,9 +1,9 @@
+import 'package:findr/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'home.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -36,7 +36,7 @@ Future<AuthResponse> _googleSignIn(BuildContext context) async {
     if (authResponse.user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Home()), 
+        MaterialPageRoute(builder: (context) => BottomNavBar()), 
       );
     } else {
       throw 'Failed to sign in with Google.';
@@ -75,6 +75,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -130,7 +131,7 @@ class _LoginState extends State<Login> {
                   children: [
                     const Spacer(),
                     const Spacer(),
-                    Image.asset('assets/logo.png', height: 50),
+                    Image.asset('assets/logo.png', height: 70),
                     GradientText(
                       'Findr',
                       style: const TextStyle(
@@ -140,13 +141,13 @@ class _LoginState extends State<Login> {
                       ),
                       colors: const [
                         Color(0xFF96775B),
-                        Color.fromARGB(1000, 48, 38, 29),
+                         Color(0xFF451B0A),
                       ],
                     ),
                     const Text(
                       'Home of the wayward tresures', 
                       style: TextStyle(
-                        color: Color.fromARGB(1000, 48, 38, 29),
+                        color: Color(0xFF451B0A),
                         fontFamily: 'Roboto',
                         )
                       ),
@@ -157,14 +158,6 @@ class _LoginState extends State<Login> {
                       },
                       icon: FontAwesomeIcons.google,
                       label: 'Sign in with Google',
-                    ),
-                    const SizedBox(height: 15),
-                    CustomButton(
-                      onPressed: () {
-                        // Add Guest sign-in logic here
-                      },
-                      icon: FontAwesomeIcons.solidUser,
-                      label: 'Sign in as Guest',
                     ),
                     const Spacer()
                   ],
@@ -222,7 +215,7 @@ Path getClip(Size size) {
 	path.lineTo(size.width * 0.23, size.height * 0.7); 
   path.lineTo(size.width * 0.1, 40); 
 	path.lineTo(size.width * 0.15, size.height); 
-  path.lineTo(0, size.height * 0.71); 
+  path.lineTo(0, size.height * 0.50); 
 	path.close(); 
 	return path; 
 } 

@@ -3,6 +3,8 @@ import 'package:findr/screens/chatlist.dart';
 import 'package:findr/screens/details.dart';
 import 'package:findr/screens/login.dart';
 import 'package:findr/screens/home.dart';
+import 'package:findr/screens/profile.dart';
+import 'package:findr/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,13 +40,15 @@ class MainApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Findr',
-      initialRoute: '/chat',
+      initialRoute: '/nav',
       routes: {
         '/': (context) => const Login(),
         '/home': (context) => const Home(),
         '/details': (context) => const Details(),
         '/chatlist': (context) => const Chatlist(),
         '/chat': (context) => const Chat(),
+        '/nav': (context) => BottomNavBar(),
+        '/profile': (context) => const Profile()
       },
     );
   }
