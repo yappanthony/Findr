@@ -7,6 +7,8 @@ import 'package:findr/screens/profile.dart';
 import 'package:findr/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +17,12 @@ void main() async {
     url: 'https://kzaezxyufvydztpdnxeo.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6YWV6eHl1ZnZ5ZHp0cGRueGVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzExNTE4NzAsImV4cCI6MjA0NjcyNzg3MH0.gB49-HRM31IJb7QSXLPN98tZe8BimN9ndF70rQUx5CY',
   );
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
+
+// final streamProvider = StreamProvider((ref) {
+//   return ref
+// });
 
 final supabase = Supabase.instance.client;
 
@@ -40,7 +46,7 @@ class MainApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Findr',
-      initialRoute: '/nav',
+      initialRoute: '/',
       routes: {
         '/': (context) => const Login(),
         '/home': (context) => const Home(),

@@ -34,8 +34,6 @@ Future<AuthResponse> _googleSignIn(BuildContext context) async {
     );
 
     if (authResponse.user != null) {
-      print('HELLOOO???');
-      print(authResponse.user);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNavBar()), 
@@ -168,6 +166,18 @@ class _LoginState extends State<Login> {
                       },
                       icon: FontAwesomeIcons.google,
                       label: 'Sign in with Google',
+                    ),
+                    const SizedBox(height: 10,),
+                    CustomButton(
+                      onPressed: () async {
+                        await supabase.auth.signInAnonymously();
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/nav', 
+                        );
+                      },
+                      icon: FontAwesomeIcons.user,
+                      label: 'Sign in as Guest',
                     ),
                     const Spacer()
                   ],

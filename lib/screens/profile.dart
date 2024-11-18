@@ -5,7 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 final user = supabase.auth.currentUser;
-final fullName = user?.userMetadata?['full_name'];
+final fullName = (user?.isAnonymous ?? true) ? 'Anonymous' : user?.userMetadata?['full_name'];
+final avatar = fullName == 'Anonymous' ? 'https://kzaezxyufvydztpdnxeo.supabase.co/storage/v1/object/public/items/user.png' : user!.userMetadata!['avatar_url'];
 
 
 class Profile extends StatelessWidget {
@@ -13,6 +14,8 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ANON SIGN IN!!');
+    print(user);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -20,11 +23,10 @@ class Profile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (user?.userMetadata?['avatar_url'] != null)
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(user!.userMetadata!['avatar_url']),
-              ),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(avatar),
+            ),
             const SizedBox(height: 20),
             if (fullName != null)
               Text(
@@ -37,7 +39,7 @@ class Profile extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () async {
                   await supabase.auth.signOut();
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.pushReplacementNamed(context, '/');
                 },
                 label: const Text('Log Out'),
                 style: ElevatedButton.styleFrom(
