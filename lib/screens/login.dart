@@ -34,6 +34,8 @@ Future<AuthResponse> _googleSignIn(BuildContext context) async {
     );
 
     if (authResponse.user != null) {
+      print('HELLOOO???');
+      print(authResponse.user);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNavBar()), 
@@ -60,16 +62,24 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String? _userId;
+  late final dynamic _authSubscription;
 
   @override
   void initState() {
     super.initState();
-
-    supabase.auth.onAuthStateChange.listen((data) {
-      setState(() {
-        _userId = data.session?.user.id;
-      });
+    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      if (mounted) {
+        setState(() {
+          _userId = data.session?.user.id;
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription.cancel(); // Clean up the listener
+    super.dispose();
   }
 
   @override
