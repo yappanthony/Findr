@@ -1,3 +1,4 @@
+import 'package:findr/screens/home.dart';
 import 'package:findr/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,7 +37,7 @@ Future<AuthResponse> _googleSignIn(BuildContext context) async {
     if (authResponse.user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomNavBar()), 
+        MaterialPageRoute(builder: (context) => Home(title: 'Lost & Found',)), 
       );
     } else {
       throw 'Failed to sign in with Google.';

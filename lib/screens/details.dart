@@ -13,36 +13,6 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items:const  <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(  
-
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 0,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: const Color(0xFFFEE4A2),
-        backgroundColor: const Color(0xFF451B0A),
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-          onTap: (int index) {
-    if (index == 1) {
-      Navigator.pushNamed(context, '/nav');
-    } else {
-      Navigator.pop(context);
-    }
-  },
-      ),
       body: SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(

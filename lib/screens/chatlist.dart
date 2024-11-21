@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -8,8 +9,9 @@ final user = supabase.auth.currentUser;
 final fullName = user?.userMetadata?['full_name'];
 
 class Chatlist extends StatelessWidget {
-  const Chatlist({super.key});
+  const Chatlist({super.key, required this.route, required String title});
 
+  final String? route;
   final List<Map<String, dynamic>> gridData = const [
     {'avatar': 'assets/image.png', 'name': 'John Doe', 'chat': 'Hey, how are you?'},
     {'avatar': 'assets/image.png', 'name': 'Jane Smith', 'chat': 'Are we still meeting tomorrow?'},
@@ -64,7 +66,7 @@ class Chatlist extends StatelessWidget {
                   final item = gridData[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/chat');
+                      context.push(route!);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(0),

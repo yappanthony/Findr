@@ -1,36 +1,15 @@
-import 'package:findr/screens/chatlist.dart';
-import 'package:findr/screens/home.dart';
-import 'package:findr/screens/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
-class BottomNavBar extends StatefulWidget {
-  @override
-  _BottomNavBarState createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    const Home(),
-    const Chatlist(),
-    const Profile(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({super.key, required this.shell});
+  final StatefulNavigationShell shell;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
-      ),
+      body: shell,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -46,11 +25,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: shell.currentIndex,
         unselectedItemColor: const Color(0xFFFEE4A2),
         selectedItemColor: Colors.white,
         backgroundColor: const Color(0xFF451B0A),
-        onTap: _onItemTapped,
+        onTap: (index){
+          shell.goBranch(index);
+        }
+          ,
         showSelectedLabels: true,
         showUnselectedLabels: false,
       ),

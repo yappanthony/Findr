@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -8,8 +9,9 @@ final user = supabase.auth.currentUser;
 final fullName = user?.userMetadata?['full_name'];
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({super.key, this.route, required String title});
 
+  final String? route;
   final List<Map<String, dynamic>> gridData = const [
     {'text': 'Notebook', 'location': 'Library', 'image': 'assets/logo.png'},
     {'text': 'Phone', 'location': 'Cafeteria', 'image': 'assets/logo.png'},
@@ -75,7 +77,7 @@ class Home extends StatelessWidget {
                   final item = gridData[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/details');
+                      context.push(route!);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(0),
