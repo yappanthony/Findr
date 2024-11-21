@@ -21,10 +21,17 @@ class Home extends StatelessWidget {
     {'text': 'Ball', 'location': 'Gym', 'image': 'assets/logo.png'},
     {'text': 'Fan', 'location': 'Office', 'image': 'assets/image.png'},
   ];
+
+  Future<List<Map<String, dynamic>>> fetchItems() {
+  return supabase
+      .from('items')
+      .select('id, name, created_at, description, images(image_url)');
+}
   
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -64,101 +71,119 @@ class Home extends StatelessWidget {
                 ),
             ),
             Expanded(
-                child: GridView.builder(
-                padding: const EdgeInsets.all(15),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  childAspectRatio: .8, // Adjust this value to control the height
-                ),
-                itemCount: gridData.length,
-                itemBuilder: (context, index) {
-                  final item = gridData[index];
-                  return GestureDetector(
-                    onTap: () {
-                      context.push(route!);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: const Color(0xFF96775A).withOpacity(.34)),
-                        color: Colors.white,
+                child: FutureBuilder(
+                  future: fetchItems(),
+                  builder: (context, snapshot) {
+
+                    if (!snapshot.hasData) {
+                      return const SizedBox.shrink();
+                    }
+                    
+                    final items = snapshot.data!;
+
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(15),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                        childAspectRatio: .8, // Adjust this value to control the height
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            Stack(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.push(route!);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: const Color(0xFF96775A).withOpacity(.34)),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
-                                ),
-                                child: Image.asset(
-                                'assets/image.png',
-                                fit: BoxFit.cover,
-                                width: 500,
-                                ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color.fromARGB(1000, 48, 38, 29).withOpacity(.70),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                                      child: Text(
-                                        "Unclaimed",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.w300,
-                                          color: Colors.white,
+                                  Stack(
+                                    children: [
+                                      SizedBox(
+                                        width: 181,
+                                        height: 121,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(5),
+                                            topRight: Radius.circular(5),
+                                          ),
+                                          child: Image.network(
+                                            item['images'][0]['image_url'],
+                                            fit: BoxFit.scaleDown,
+                                          ),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: const Color.fromARGB(1000, 48, 38, 29).withOpacity(.70),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                                            child: Text(
+                                              "Unclaimed",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontFamily: 'Roboto',
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                  child: Text(
+                                    item['name'],
+                                    style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(1000, 48, 38, 29),
                                     ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                  width: 181,
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.location_on, size: 12,color: Color.fromARGB(1000, 48, 38, 29),),
+                                      Flexible(
+                                        child: Text(
+                                          item['description'],
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color.fromARGB(1000, 48, 38, 29),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: Text(
-                              item['text'],
-                              style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(1000, 48, 38, 29),
-                              ),
-                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.location_on, size: 12,color: Color.fromARGB(1000, 48, 38, 29),),
-                                 Text(
-                              item['location'],
-                              style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(1000, 48, 38, 29),
-                              ),
-                            ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        );
+                      },
+                    );
+                  },
+                ),
             ),
           ],
         ),
