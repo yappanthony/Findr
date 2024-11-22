@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -15,7 +16,7 @@ class Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item);
+    print(item['images']);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -26,12 +27,37 @@ class Details extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Center(
-                    child: Image.network(
-                      item['images'][0]['image_url'],
-                      width: double.infinity,
-                      fit: BoxFit.fill,
+                  // Center(
+                  //   child: Image.network(
+                  //     item['images'][0]['image_url'],
+                  //     width: double.infinity,
+                  //     fit: BoxFit.fill,
+                  //   ),
+                  // ),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 400.0,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 0.9,
                     ),
+                    items: item['images'].map<Widget>((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 218, 218, 218)
+                            ),
+                            child: Image.network(
+                              i['image_url'],
+                              width: double.infinity,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
@@ -144,7 +170,7 @@ class Details extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(

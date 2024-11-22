@@ -14,15 +14,7 @@ void main() async {
   runApp(const ProviderScope(child: MainApp()));
 }
 
-// final streamProvider = StreamProvider((ref) {
-//   return ref
-// });
-
 final supabase = Supabase.instance.client;
-
-/*
-  Use a FutureBuilder to fetch the data when the home page loads and display the query result in a ListView.
-*/
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -44,39 +36,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-// class Homepage extends StatefulWidget {
-//   const Homepage({super.key});
-
-//   @override
-//   State<Homepage> createState() => _HomepageState();
-// }
-
-// class _HomepageState extends State<Homepage> {
-//   final _items = supabase.from('items').stream(primaryKey: ['id']);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: StreamBuilder<List<Map<String, dynamic>>>(
-//         stream: _items,
-//         builder: (context, snapshot) {
-//           if (!snapshot.hasData) {
-//             return const Center(child: CircularProgressIndicator());
-//           }
-          
-//           final items = snapshot.data!;
-
-//           return ListView.builder(
-//             itemCount: items.length,
-//             itemBuilder: (context, index) {
-//               return ListTile(
-//                 title: Text(items[index]['name'])
-//               );
-//             }
-//           );
-//         }
-//       )
-//     );
-//   }
-// }
-
