@@ -21,7 +21,9 @@ GoRouter router = GoRouter(routes: [
         ),
         GoRoute(
           path: "/details",
-          builder: (context, state) => const Details(),
+          builder: (context, state) => Details(
+            item: state.extra as Map<String, dynamic>
+          ),
         )
       ]),
       StatefulShellBranch(routes: [

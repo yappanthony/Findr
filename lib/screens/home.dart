@@ -12,15 +12,6 @@ class Home extends StatelessWidget {
   const Home({super.key, this.route, required String title});
 
   final String? route;
-  final List<Map<String, dynamic>> gridData = const [
-    {'text': 'Notebook', 'location': 'Library', 'image': 'assets/logo.png'},
-    {'text': 'Phone', 'location': 'Cafeteria', 'image': 'assets/logo.png'},
-    {'text': 'Ball', 'location': 'Gym', 'image': 'assets/image.png'},
-    {'text': 'Fan', 'location': 'Office', 'image': 'assets/logo.png'},
-    {'text': 'Water Bottle', 'location': 'Playground', 'image': 'assets/image.png'},
-    {'text': 'Ball', 'location': 'Gym', 'image': 'assets/logo.png'},
-    {'text': 'Fan', 'location': 'Office', 'image': 'assets/image.png'},
-  ];
 
   Future<List<Map<String, dynamic>>> fetchItems() {
   return supabase
@@ -94,7 +85,10 @@ class Home extends StatelessWidget {
                         final item = items[index];
                         return GestureDetector(
                           onTap: () {
-                            context.push(route!);
+                            context.push(
+                              route!,
+                              extra: item
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(0),

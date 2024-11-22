@@ -4,14 +4,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-final user = supabase.auth.currentUser;
-final fullName = user?.userMetadata?['full_name'];
-
 class Details extends StatelessWidget {
-  const Details({super.key});
+  final Map<String, dynamic> item;
+
+  const Details({
+    super.key,
+    required this.item
+  });
+
 
   @override
   Widget build(BuildContext context) {
+    print(item);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -23,8 +27,8 @@ class Details extends StatelessWidget {
               Stack(
                 children: [
                   Center(
-                    child: Image.asset(
-                      'assets/image.png',
+                    child: Image.network(
+                      item['images'][0]['image_url'],
                       width: double.infinity,
                       fit: BoxFit.fill,
                     ),
@@ -45,16 +49,16 @@ class Details extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Notebook',
-                      style: TextStyle(
+                    Text(
+                      item['name'],
+                      style: const TextStyle(
                         fontSize: 20,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
@@ -79,8 +83,16 @@ class Details extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Divider(),
+                    const SizedBox(height: 10),
+                    Text(
+                      item['description'],
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Color.fromARGB(1000, 48, 38, 29),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Divider(),
                     const Text(
                       'Location Found',
                       style: TextStyle(
@@ -89,16 +101,16 @@ class Details extends StatelessWidget {
                         color: Color.fromARGB(1000, 48, 38, 29),
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on,
                           size: 16,
                           color: Color.fromARGB(1000, 48, 38, 29),
                         ),
                         Text(
-                          'Library',
-                          style: TextStyle(
+                          item['location'],
+                          style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(1000, 48, 38, 29),
