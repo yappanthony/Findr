@@ -172,10 +172,12 @@ class _LoginState extends State<Login> {
                     CustomButton(
                       onPressed: () async {
                         await supabase.auth.signInAnonymously();
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/nav', 
-                        );
+                        if (mounted){
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home(title: 'Lost & Found',)), 
+                          );
+                        }
                       },
                       icon: FontAwesomeIcons.user,
                       label: 'Sign in as Guest',

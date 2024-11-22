@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -36,9 +37,9 @@ class Profile extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               child: ElevatedButton.icon(
                 onPressed: () async {
-                  await supabase.auth.signOut();
-                  Navigator.pushReplacementNamed(context, '/');
-                },
+                          await supabase.auth.signOut();
+                          context.go('/login');
+                        },
                 label: const Text('Log Out'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
