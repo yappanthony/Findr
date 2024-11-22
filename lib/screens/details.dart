@@ -16,7 +16,6 @@ class Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item['images']);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -27,13 +26,6 @@ class Details extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  // Center(
-                  //   child: Image.network(
-                  //     item['images'][0]['image_url'],
-                  //     width: double.infinity,
-                  //     fit: BoxFit.fill,
-                  //   ),
-                  // ),
                   CarouselSlider(
                     options: CarouselOptions(
                       height: 400.0,

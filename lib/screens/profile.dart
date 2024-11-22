@@ -14,8 +14,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('ANON SIGN IN!!');
-    print(user);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
