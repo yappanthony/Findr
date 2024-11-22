@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
   Future<List<Map<String, dynamic>>> fetchItems() {
   return supabase
       .from('items')
-      .select('id, name, created_at, description, images(image_url)');
+      .select('id, name, created_at, description, location, images(image_url)');
 }
   
 
@@ -160,15 +160,31 @@ class Home extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                   width: 181,
-                                  child: Row(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Icon(Icons.location_on, size: 12,color: Color.fromARGB(1000, 48, 38, 29),),
-                                      Flexible(
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.location_on, size: 12,color: Color.fromARGB(1000, 48, 38, 29),),
+                                          Text(
+                                              " ${item['location']}",
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color.fromARGB(1000, 48, 38, 29),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
                                         child: Text(
-                                          item['description'],
+                                          " ${item['description']}",
+                                          textAlign: TextAlign.left,
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
+                                            
                                             color: Color.fromARGB(1000, 48, 38, 29),
                                           ),
                                         ),
