@@ -2,7 +2,7 @@
 
 A campus lost and found app for our flutter final project
 
-Nov 22, 2024 Note:
+## Nov 22, 2024 Note:
 
 Good afternoon, sir!
 
