@@ -39,7 +39,7 @@ class Details extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 218, 218, 218)
+                              color: Color.fromARGB(190, 242, 242, 242)
                             ),
                             child: Image.network(
                               i['image_url'],
