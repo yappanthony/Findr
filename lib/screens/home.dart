@@ -171,9 +171,9 @@ class Home extends StatelessWidget {
                                         ],
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 5),
+                                        padding: const EdgeInsets.only(top: 5, left: 2),
                                         child: Text(
-                                          " ${item['description']}",
+                                          item['description'],
                                           textAlign: TextAlign.left,
                                           style: const TextStyle(
                                             fontSize: 12,
