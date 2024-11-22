@@ -8,10 +8,10 @@ import 'package:findr/widgets/navbar.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/',
   routes: [
     GoRoute(
-      path: "/login",
+      path: "/",
       builder: (context, state) => const Login(),
     ),
     StatefulShellRoute.indexedStack(
@@ -19,7 +19,7 @@ GoRouter router = GoRouter(
       branches: [
         StatefulShellBranch(routes: [
           GoRoute(
-            path: "/",
+            path: "/home",
             builder: (context, state) => const Home(
               title: "Lost & Found",
               route: '/details',

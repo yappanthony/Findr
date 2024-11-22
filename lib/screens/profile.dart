@@ -38,7 +38,7 @@ class Profile extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () async {
                           await supabase.auth.signOut();
-                          context.go('/login');
+                          context.go('/');
                         },
                 label: const Text('Log Out'),
                 style: ElevatedButton.styleFrom(

@@ -2,6 +2,7 @@ import 'package:findr/screens/home.dart';
 import 'package:findr/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,10 +36,7 @@ Future<AuthResponse> _googleSignIn(BuildContext context) async {
     );
 
     if (authResponse.user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home(title: 'Lost & Found',)), 
-      );
+      context.go('/home');
     } else {
       throw 'Failed to sign in with Google.';
     }
@@ -172,12 +170,7 @@ class _LoginState extends State<Login> {
                     CustomButton(
                       onPressed: () async {
                         await supabase.auth.signInAnonymously();
-                        if (mounted){
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home(title: 'Lost & Found',)), 
-                          );
-                        }
+                          context.go('/home');
                       },
                       icon: FontAwesomeIcons.user,
                       label: 'Sign in as Guest',
