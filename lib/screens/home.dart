@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchItems();
+    fetchSearchHistory();
   }
 
   Future<List<Map<String, dynamic>>> fetchItems() {
@@ -38,12 +39,14 @@ class _HomeState extends State<Home> {
         .then((response) => List<Map<String, dynamic>>.from(response));
   }
 
-  Future<void> fetchData() async {
+  Future<void> fetchSearchHistory() async {
     try {
       final response = await supabase.from('search_history').select('*');
 
-      dbSearchQueries = List<Map<String, dynamic>>.from(response);
-      print(dbSearchQueries);
+      dbSearchQueries = [{"query": "good to know :)"}];
+
+      // dbSearchQueries = List<Map<String, dynamic>>.from(response);
+      // print(dbSearchQueries);
     
     } catch (e) {
       print('Exception: $e');
@@ -83,7 +86,7 @@ class _HomeState extends State<Home> {
                   setState(() {
                     showSearchHistory = true;
                   });
-                  fetchData();
+                  fetchSearchHistory();
                 },
                 onTapOutside: (event) {
                   setState(() {
@@ -116,18 +119,17 @@ class _HomeState extends State<Home> {
               ),
             ),
             if (showSearchHistory)
-              ListView.builder(
-                itemCount: dbSearchQueries.length,
-                itemBuilder: (context, index) {
-                  final search_query = dbSearchQueries[index];
-                  // final queryText = search_query["query"];
+              Expanded(
+                child: ListView.builder(
+                  itemCount: dbSearchQueries.length,
+                  itemBuilder: (context, index) {
+                    final search_query = dbSearchQueries[index];
 
-                  print(search_query);
-
-                  return Container(
-                    child: Text('smtg'),
-                  );
-                },
+                    return Container(
+                      child: Text(search_query["query"]),
+                    );
+                  },
+                ),
               ),
             if (!showSearchHistory)
               Expanded(
