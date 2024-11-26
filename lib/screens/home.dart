@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -43,7 +44,11 @@ class _HomeState extends State<Home> {
     try {
       final response = await supabase.from('search_history').select('*');
 
-      dbSearchQueries = [{"query": "good to know :)"}];
+      dbSearchQueries = [{"query": "good to know :)"},{"query": "wallet"},
+        {"query": "keys"},
+        {"query": "phone"},
+        {"query": "laptop"},
+        {"query": "backpack"},];
 
       // dbSearchQueries = List<Map<String, dynamic>>.from(response);
       // print(dbSearchQueries);
@@ -88,13 +93,9 @@ class _HomeState extends State<Home> {
                   });
                   fetchSearchHistory();
                 },
-                onTapOutside: (event) {
-                  setState(() {
-                    showSearchHistory = false;
-                  });
-                },
                 onSubmitted: (value) {
                   setState(() {
+                    showSearchHistory = false;
                     _searchQuery = value;
                     // POST new query 
                     fetchItems();
@@ -118,6 +119,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+
             if (showSearchHistory)
               Expanded(
                 child: ListView.builder(
@@ -125,12 +127,44 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, index) {
                     final search_query = dbSearchQueries[index];
 
-                    return Container(
-                      child: Text(search_query["query"]),
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _searchController.text = search_query["query"];
+                          _searchQuery = search_query["query"];
+                          showSearchHistory = false;
+                          fetchItems();
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(65, 20, 20, 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  search_query["query"],
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Roboto',
+                                  ),
+                                ),
+                                const Spacer(),
+                                FaIcon(
+                                  FontAwesomeIcons.arrowUp,
+                                  size: 20,
+                                  color: Colors.black.withOpacity(.5),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
               ),
+
             if (!showSearchHistory)
               Expanded(
                 child: FutureBuilder<List<Map<String, dynamic>>>(
