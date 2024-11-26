@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 final supabase = Supabase.instance.client;
@@ -53,18 +55,24 @@ class Details extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: IconButton(
-                      hoverColor: Colors.white,
-                      highlightColor: Colors.white,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color:  Color(0xFF451B0A),
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        hoverColor: Colors.white,
+                        highlightColor: Colors.white,
                         color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const FaIcon(
+                          FontAwesomeIcons.arrowLeft,
+                          size: 20,),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(height: 10),
@@ -145,16 +153,16 @@ class Details extends StatelessWidget {
                         color: Color.fromARGB(1000, 48, 38, 29),
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.av_timer,
                           size: 16,
                           color: Color.fromARGB(1000, 48, 38, 29),
                         ),
                         Text(
-                          'December 25th, 2024 at 7:00AM',
-                          style: TextStyle(
+                          DateFormat('MMMM dd, yyyy – kk:mm').format(DateTime.parse(item['date_reported'])),
+                          style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(1000, 48, 38, 29),
