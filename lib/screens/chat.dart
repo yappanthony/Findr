@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -70,7 +71,7 @@ class _ChatState extends State<Chat> {
                     highlightColor: Colors.white,
                     color: Color(0xFF451B0A),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context); 
                     },
                     icon: const FaIcon(
                       FontAwesomeIcons.arrowLeft,
@@ -130,16 +131,17 @@ class _ChatState extends State<Chat> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your message',
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your message',
+                    suffixIcon: IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: _sendMessage,
                     ),
-                    onSubmitted: (value) => _sendMessage(),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _sendMessage,
+                  onSubmitted: (value) => _sendMessage(),
+                  ),
                 ),
               ],
             ),
