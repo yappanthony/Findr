@@ -170,20 +170,6 @@ class Details extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF451B0A),
-                        foregroundColor: Colors.white,
-                        shadowColor: Colors.transparent,
-                        minimumSize: const Size(double.infinity, 50), // Set width to double.infinity
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      child: const Text('Chat with Finder'),
-                    )
                   ],
                 ),
               ),

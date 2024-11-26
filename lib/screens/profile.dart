@@ -11,7 +11,9 @@ final avatar = fullName == 'Anonymous' ? 'https://kzaezxyufvydztpdnxeo.supabase.
 
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  const Profile({super.key, this.route, required String title});
+
+  final String? route;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +38,12 @@ class Profile extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: ElevatedButton.icon(
-                onPressed: () async {
-                          await supabase.auth.signOut();
-                          context.go('/');
-                        },
-                label: const Text('Log Out'),
+                onPressed: () {
+                  if (route != null) {
+                    context.go(route!);
+                  }
+                },
+                label: const Text('Contact Admin'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: const Color(0xFF451B0A),
@@ -48,7 +51,24 @@ class Profile extends StatelessWidget {
                   side: const BorderSide(color: Color(0xFF451B0A)),
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                          await supabase.auth.signOut();
+                          context.go('/');
+                        },
+                label: const Text('Log Out'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.red,
+                  shadowColor: Colors.transparent,
+                  side: const BorderSide(color: Colors.red),
+                ),
+              ),
+            ),
           ],
         ),
       ),

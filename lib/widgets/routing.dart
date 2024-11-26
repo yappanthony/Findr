@@ -1,5 +1,4 @@
 import 'package:findr/screens/chat.dart';
-import 'package:findr/screens/chatlist.dart';
 import 'package:findr/screens/details.dart';
 import 'package:findr/screens/home.dart';
 import 'package:findr/screens/profile.dart';
@@ -34,21 +33,15 @@ GoRouter router = GoRouter(
         ]),
         StatefulShellBranch(routes: [
           GoRoute(
-            path: "/chatlist",
-            builder: (context, state) => const Chatlist(
-              title: "Chat List",
+            path: "/profile",
+            builder: (context, state) => const Profile(
+              title: "Profile",
               route: '/chat',
             ),
           ),
           GoRoute(
             path: "/chat",
             builder: (context, state) => const Chat(),
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: "/profile",
-            builder: (context, state) => const Profile(),
           ),
         ]),
       ],
