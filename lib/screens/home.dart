@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     return supabase
         .from('items')
         .select('id, name, date_reported, description, location, images(image_url), reporter_name, claimed, visible')
-        .ilike('name', '%$_searchQuery%')
+        .or('name.ilike.%$_searchQuery%,description.ilike.%$_searchQuery%')
         .eq('visible', true)
         .then((response) => List<Map<String, dynamic>>.from(response));
   }
