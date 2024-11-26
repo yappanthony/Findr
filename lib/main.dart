@@ -24,10 +24,19 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        secondaryHeaderColor: const Color(0xFF451B0A),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFF451B0A),
+          selectionColor: Color(0xFF96775B),
+          selectionHandleColor: Color(0xFF96775B),
+        ),
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF451B0A),
         ),
       ),
       debugShowCheckedModeBanner: false,

@@ -88,11 +88,11 @@ class Details extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: const Color(0xFF451B0A).withOpacity(.70),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                         child: Text(
-                          "Unclaimed",
-                          style: TextStyle(
+                          item['claimed'] != null && item['claimed'] ? "Claimed" : "Unclaimed",
+                          style: const TextStyle(
                             fontSize: 13,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w300,

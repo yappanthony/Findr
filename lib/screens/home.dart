@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
   Future<List<Map<String, dynamic>>> fetchItems() {
   return supabase
       .from('items')
-      .select('id, name, created_at, description, location, images(image_url)');
+      .select('id, name, date_reported, description, location, images(image_url), reporter_name, claimed ');
 }
   
 
@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
-                        childAspectRatio: .8, // Adjust this value to control the height
+                        childAspectRatio: .7, // Adjust this value to control the height
                       ),
                       itemCount: items.length,
                       itemBuilder: (context, index) {
@@ -103,17 +103,19 @@ class Home extends StatelessWidget {
                               children: [
                                   Stack(
                                     children: [
-                                      SizedBox(
-                                        width: 181,
-                                        height: 121,
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(5),
-                                            topRight: Radius.circular(5),
-                                          ),
-                                          child: Image.network(
-                                            item['images'][0]['image_url'],
-                                            fit: BoxFit.scaleDown,
+                                      Center(
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          height: 200,
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(5),
+                                              topRight: Radius.circular(5),
+                                            ),
+                                            child: Image.network(
+                                              item['images'][0]['image_url'],
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -124,11 +126,11 @@ class Home extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(5),
                                             color: const Color.fromARGB(1000, 48, 38, 29).withOpacity(.70),
                                           ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                                             child: Text(
-                                              "Unclaimed",
-                                              style: TextStyle(
+                                              item['claimed'] != null && item['claimed'] ? "Claimed" : "Unclaimed",
+                                              style: const TextStyle(
                                                 fontSize: 13,
                                                 fontFamily: 'Roboto',
                                                 fontWeight: FontWeight.w300,
