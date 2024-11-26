@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -60,16 +61,34 @@ class _ChatState extends State<Chat> {
 
       body: Column(
         children: [
-          const Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "Admin Chat",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                  child: IconButton(
+                    hoverColor: Colors.white,
+                    highlightColor: Colors.white,
+                    color: Color(0xFF451B0A),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const FaIcon(
+                      FontAwesomeIcons.arrowLeft,
+                      size: 20,),
+                  ),
+                ),
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "Admin Chat",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                  ),
                 ),
               ),
-            ),
+            ],
+          ),
             Expanded(
             child: 
               GroupedListView<Message, DateTime>(
