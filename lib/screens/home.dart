@@ -53,6 +53,17 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> addSearchHistory() async {
+    try {
+      final response = await supabase.from('search_history').insert([
+        {'query': _searchQuery},
+      ]);
+
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -97,6 +108,7 @@ class _HomeState extends State<Home> {
                   setState(() {
                     _searchQuery = value;
                     // POST new query 
+                    addSearchHistory();
                     fetchItems();
                   });
                 },
