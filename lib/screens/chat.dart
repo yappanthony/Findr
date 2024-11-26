@@ -103,14 +103,14 @@ class _ChatState extends State<Chat> {
                 crossAxisAlignment: messages.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                     Card(
-                    color: Colors.white,
+                    color: !messages.isSentByMe ? Colors.white : Color(0xFF451B0A),
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(messages.text),
+                      child: Text(messages.text, style: TextStyle(color: !messages.isSentByMe ? const Color(0xFF451B0A) : Colors.white),),
                     ),
                     ),
                   Padding(
