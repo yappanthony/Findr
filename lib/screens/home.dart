@@ -6,8 +6,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 final user = supabase.auth.currentUser;
+final authID = user?.id ?? '';
+
 final fullName = user?.userMetadata?['full_name'];
-final authID = user?.id;
 
 class Home extends StatefulWidget {
   const Home({super.key, this.route, required String title});
@@ -42,17 +43,25 @@ class _HomeState extends State<Home> {
 
   Future<void> fetchSearchHistory() async {
     try {
-      final response = await supabase.from('search_history').select('*');
+      final response = await supabase.from('search_history').select('*').eq('user_id', authID);
 
-      dbSearchQueries = [{"query": "good to know :)"},{"query": "wallet"},
-        {"query": "keys"},
-        {"query": "phone"},
-        {"query": "laptop"},
-        {"query": "backpack"},];
+      // dbSearchQueries = [{"query": "good to know :)"}];
 
-      // dbSearchQueries = List<Map<String, dynamic>>.from(response);
+      dbSearchQueries = List<Map<String, dynamic>>.from(response);
       // print(dbSearchQueries);
     
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
+  Future<void> addSearchHistory() async {
+    try {
+      if (_searchQuery.isEmpty) return;
+      final response = await supabase.from('search_history').insert([
+        {'query': _searchQuery},
+      ]);
+
     } catch (e) {
       print('Exception: $e');
     }
@@ -98,6 +107,8 @@ class _HomeState extends State<Home> {
                     showSearchHistory = false;
                     _searchQuery = value;
                     // POST new query 
+                    addSearchHistory();
+                    fetchSearchHistory();
                     fetchItems();
                   });
                 },
@@ -133,6 +144,7 @@ class _HomeState extends State<Home> {
                           _searchController.text = search_query["query"];
                           _searchQuery = search_query["query"];
                           showSearchHistory = false;
+                          addSearchHistory();
                           fetchItems();
                         });
                       },
