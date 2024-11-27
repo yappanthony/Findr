@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
 
   Future<void> fetchSearchHistory() async {
     try {
-      final response = await supabase.from('search_history').select('*').eq('user_id', authID);
+      final response = await supabase.from('search_history').select('*').eq('user_id', authID).order('created_at', ascending: false);
 
       // dbSearchQueries = [{"query": "good to know :)"}];
 
@@ -115,6 +115,19 @@ class _HomeState extends State<Home> {
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   prefixIcon: const Icon(Icons.search),
+                  suffixIcon: showSearchHistory
+                      ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                        _searchController.clear();
+                        _searchQuery = '';
+                        showSearchHistory = false;
+                        FocusScope.of(context).unfocus();
+                        });
+                      },
+                      )
+                    : null,
                   filled: true,
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
@@ -137,7 +150,6 @@ class _HomeState extends State<Home> {
                   itemCount: dbSearchQueries.length,
                   itemBuilder: (context, index) {
                     final search_query = dbSearchQueries[index];
-
                     return GestureDetector(
                       onTap: () {
                         setState(() {
@@ -145,15 +157,24 @@ class _HomeState extends State<Home> {
                           _searchQuery = search_query["query"];
                           showSearchHistory = false;
                           addSearchHistory();
+                          fetchSearchHistory();
                           fetchItems();
                         });
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(65, 20, 20, 20),
+                        padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
                         child: Column(
                           children: [
                             Row(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.clockRotateLeft,
+                                    size: 20,
+                                    color: Colors.black.withOpacity(.5),
+                                  ),
+                                ),
                                 Text(
                                   search_query["query"],
                                   style: const TextStyle(
@@ -162,11 +183,22 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 const Spacer(),
-                                FaIcon(
-                                  FontAwesomeIcons.arrowUp,
-                                  size: 20,
-                                  color: Colors.black.withOpacity(.5),
-                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _searchController.text = search_query["query"];
+                                      _searchQuery = search_query["query"];
+                                      addSearchHistory();
+                                      fetchSearchHistory();
+                                      fetchItems();
+                                    });
+                                  },
+                                  child: FaIcon(
+                                    FontAwesomeIcons.arrowUp,
+                                    size: 20,
+                                    color: Colors.black.withOpacity(.5),
+                                  ),
+                                )
                               ],
                             ),
                           ],
