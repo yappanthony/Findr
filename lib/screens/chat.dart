@@ -70,9 +70,9 @@ class _ChatState extends State<Chat> {
                   child: IconButton(
                     hoverColor: Colors.white,
                     highlightColor: Colors.white,
-                    color: Color(0xFF451B0A),
+                    color: const Color(0xFF451B0A),
                     onPressed: () {
-                      Navigator.pop(context); 
+                       context.pop();
                     },
                     icon: const FaIcon(
                       FontAwesomeIcons.arrowLeft,
@@ -131,7 +131,7 @@ class _ChatState extends State<Chat> {
                 crossAxisAlignment: messages.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                     Card(
-                    color: !messages.isSentByMe ? Colors.white : Color(0xFF451B0A),
+                    color: !messages.isSentByMe ? Colors.white : const Color(0xFF451B0A),
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -161,7 +161,7 @@ class _ChatState extends State<Chat> {
                   child: TextField(
                   controller: _controller,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     hintText: 'Enter your message',
                     suffixIcon: IconButton(
                     icon: const Icon(Icons.send),

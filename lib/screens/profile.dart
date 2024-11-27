@@ -40,7 +40,7 @@ class Profile extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   if (route != null) {
-                    context.go(route!);
+                    context.push(route!);
                   }
                 },
                 label: const Text('Contact Admin'),
