@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 final supabase = Supabase.instance.client;
 
@@ -95,8 +96,35 @@ class _ChatState extends State<Chat> {
               GroupedListView<Message, DateTime>(
               padding: const EdgeInsets.all(8),
               elements: messages,
-              groupBy: (Message element) => element.date,
-              groupHeaderBuilder: (Message messages) => SizedBox(),
+              groupBy: (Message element) => DateTime(element.date.year, element.date.month, element.date.day, element.date.hour),
+              groupHeaderBuilder: 
+                (Message messages) => Center(
+                    child: SizedBox(
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(
+                            color: Color(0xFF451B0A),
+                            thickness: 1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                            DateFormat('MMM dd, yyyy').format(messages.date),
+                            style: const TextStyle(color: Color(0xFF451B0A)),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Divider(
+                            color: Color(0xFF451B0A),
+                            thickness: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                ),
               itemBuilder: (context, Message messages) => Align(
                 alignment: messages.isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
                 child: Column(
@@ -116,7 +144,7 @@ class _ChatState extends State<Chat> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      DateFormat('kk:mm').format(messages.date),
+                      timeago.format(messages.date),
                       style: const TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   )
