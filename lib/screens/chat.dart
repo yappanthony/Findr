@@ -9,6 +9,8 @@ import 'package:timeago/timeago.dart' as timeago;
 final supabase = Supabase.instance.client;
 
 final user = supabase.auth.currentUser;
+final authID = user?.id ?? '';
+
 final fullName = user?.userMetadata?['full_name'];
 
 class Message {
@@ -29,8 +31,10 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   final TextEditingController _controller = TextEditingController();
   final List<Message> messages = [];
+  List<dynamic> dbMessages = [];
 
-  void _sendMessage() {
+
+  void _sendMessage() async {
     if (_controller.text.isNotEmpty) {
       setState(() {
         messages.add(Message(
@@ -38,23 +42,49 @@ class _ChatState extends State<Chat> {
           date: DateTime.now(),
           isSentByMe: true,
         ));
-        _controller.clear();
       });
+      try {
+        final response = await supabase.from('messages').insert([
+          {'message': _controller.text, 'sender': authID, 'receiver': '542b223c-be97-4377-b560-ed0822f85f07'},
+        ]);
+      } catch (e) {
+        print('Exception: $e');
+      }
+      _controller.clear();
     }
   }
   
   @override
   void initState() {
     super.initState();
-    messages.addAll([
-      Message(text: 'Hello!', date: DateTime.now(), isSentByMe: false),
-      Message(text: 'How can I help you today?', date: DateTime.now(), isSentByMe: false),
-      Message(text: 'Please provide more details.', date: DateTime.now(), isSentByMe: false),
-      Message(text: 'I need assistance with my account.', date: DateTime.now(), isSentByMe: true),
-      Message(text: 'Sure, what seems to be the problem?', date: DateTime.now(), isSentByMe: false),
-      Message(text: 'I am unable to login.', date: DateTime.now(), isSentByMe: true),
-      Message(text: 'Have you tried resetting your password?', date: DateTime.now(), isSentByMe: false),
-    ]);
+    fetchMessages();
+    
+  }
+
+  Future<void> fetchMessages() async {
+    try {
+      final response = await supabase
+        .from('messages')
+        .select('*, date:created_at')
+        .or('sender.eq.$authID,receiver.eq.$authID')
+        .order('created_at', ascending: true);
+
+      dbMessages = List<Map<String, dynamic>>.from(response);
+
+      setState(() {
+        messages.addAll(
+          dbMessages.map((message) {
+            return Message(
+              text: message['message'], 
+              date: DateTime.parse(message['date']), 
+              isSentByMe: message['sender'] == authID, 
+            );
+          }).toList()
+        );
+      });
+    } catch (e) {
+      print('Exception: $e');
+    }
   }
 
   @override
@@ -92,11 +122,12 @@ class _ChatState extends State<Chat> {
             ],
           ),
             Expanded(
-            child: 
-              GroupedListView<Message, DateTime>(
+            child: GroupedListView<Message, DateTime>(
+              reverse: true,
+              order: GroupedListOrder.DESC,
               padding: const EdgeInsets.all(8),
               elements: messages,
-              groupBy: (Message element) => DateTime(element.date.year, element.date.month, element.date.day, element.date.hour),
+              groupBy: (Message element) => DateTime(element.date.year, element.date.month, element.date.day),
               groupHeaderBuilder: 
                 (Message messages) => Center(
                     child: SizedBox(
@@ -164,8 +195,8 @@ class _ChatState extends State<Chat> {
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your message',
                     suffixIcon: IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: _sendMessage,
+                      icon: const Icon(Icons.send),
+                      onPressed: _sendMessage,
                     ),
                   ),
                   onSubmitted: (value) => _sendMessage(),

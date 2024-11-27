@@ -45,10 +45,8 @@ class _HomeState extends State<Home> {
     try {
       final response = await supabase.from('search_history').select('*').eq('user_id', authID).order('created_at', ascending: false);
 
-      // dbSearchQueries = [{"query": "good to know :)"}];
-
       dbSearchQueries = List<Map<String, dynamic>>.from(response);
-      // print(dbSearchQueries);
+      print(dbSearchQueries);
     
     } catch (e) {
       print('Exception: $e');
@@ -58,9 +56,17 @@ class _HomeState extends State<Home> {
   Future<void> addSearchHistory() async {
     try {
       if (_searchQuery.isEmpty) return;
-      final response = await supabase.from('search_history').insert([
-        {'query': _searchQuery},
-      ]);
+      if (dbSearchQueries.any((element) => element['query'] == _searchQuery)) {
+        await supabase.from('search_history')
+          .update({'created_at': DateTime.now().toIso8601String()})  
+          .eq('query', _searchQuery)  
+          .eq('user_id', authID); 
+        fetchSearchHistory();
+      } else {
+        await supabase.from('search_history')
+          .insert([{'query': _searchQuery}]
+        );
+      }
 
     } catch (e) {
       print('Exception: $e');
@@ -115,7 +121,7 @@ class _HomeState extends State<Home> {
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   prefixIcon: const Icon(Icons.search),
-                  suffixIcon: showSearchHistory
+                  suffixIcon: showSearchHistory || _searchQuery.isNotEmpty
                       ? IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
@@ -188,9 +194,6 @@ class _HomeState extends State<Home> {
                                     setState(() {
                                       _searchController.text = search_query["query"];
                                       _searchQuery = search_query["query"];
-                                      addSearchHistory();
-                                      fetchSearchHistory();
-                                      fetchItems();
                                     });
                                   },
                                   child: FaIcon(
